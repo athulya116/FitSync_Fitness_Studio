@@ -100,7 +100,6 @@ Access admin panel at: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin
 ## 📁 Contents
 
 * `seed_data.json`: Seed data for testing
-* `requirements.txt`: Python dependencies
 * `README.md`: Setup and documentation
 
 ##
