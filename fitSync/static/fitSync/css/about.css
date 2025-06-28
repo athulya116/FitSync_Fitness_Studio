@@ -1,0 +1,129 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+  background-color: #000;
+}
+
+.btn-main {
+  background-color: #f6c90e;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: larger;
+  transition: all 0.3s ease;
+}
+
+.btn-main:hover {
+  background-color: #e0b800;
+  color: #000;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: url(../images/images/gym-bg7.png) no-repeat center center/cover;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 0;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1,
+.hero p {
+  font-weight: bold;
+}
+
+/* ===== Section Layout ===== */
+.about,
+.services {
+  background-color: #0d0d0d;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.services {
+  background: linear-gradient(180deg, #f7f7f7, #eaeaea);
+  color: #111;
+}
+
+.about h2,
+.services h2 {
+  color: #f6c90e;
+  font-weight: bold;
+}
+
+/* ===== Trainer Cards ===== */
+.card {
+  background-color: #1a1a1a;
+  color: #fff;
+  border: 1px solid #333;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-text {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ===== Why Choose Us Icons Section ===== */
+.about .row img {
+  margin-bottom: 15px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-content,
+  .about-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .btn-main {
+    width: 80%;
+    margin: 30px auto;
+    border-radius: 10px;
+  }
+
+  .about h2,
+  .services h2 {
+    margin-top: 30px;
+  }
+}

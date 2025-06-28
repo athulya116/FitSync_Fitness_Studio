@@ -1,0 +1,44 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}SignUp | FitSync{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fitSync/css/signup.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="signup-section">
+  <div class="signup-box">
+    <h2>Create Account</h2>
+    <form method="POST" action="{% url 'signup' %}">
+      {% csrf_token %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+      <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Full Name" name="full_name" required>
+      </div>
+      <div class="mb-3">
+        <input type="email" class="form-control" placeholder="Email Address" name="email" required>
+      </div>
+      <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Phone Number" name="phone_number" required>
+      </div>
+      <div class="mb-3">
+        <input type="password" class="form-control" placeholder="Create Password"  name="password" required>
+      </div>
+      <div class="mb-3">
+        <input type="password" class="form-control" placeholder="Confirm Password" required>
+      </div>
+      <button type="submit" class="btn btn-submit">Signup</button>
+      <div class="text-center mt-3 text-small">
+        Already have an account?
+        <a href="{% url 'login' %}" style="color:#f6c90e; font-weight:bold; text-decoration:none;">Login</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

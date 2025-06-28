@@ -1,0 +1,109 @@
+{% extends './homeBase.html' %}
+{% load static %}
+
+{% block title %}FitSync | Zumba{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fitSync/css/zumba.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Zumba Sections -->
+<section class="section container">
+  <div class="row align-items-center mb-5">
+    <div class="col-md-6">
+      <img src="{% static 'fitSync/images/images/zumba3.png' %}" alt="Zumba Class" class="img-fluid">
+    </div>
+    <div class="col-md-6">
+      <h2>Zumba</h2>
+      <p>Zumba is a high-energy dance workout combining Latin and international music with fun and effective moves. At FitSync, our Zumba sessions are designed to burn calories, build endurance, and lift your spirits while dancing your way to fitness.</p>
+      <a href="#" class="btn btn-main mt-3" data-bs-toggle="modal" data-bs-target="#bookClassModal">Book a Class</a>
+    </div>
+  </div>
+
+  <div class="row align-items-center mb-5 flex-md-row-reverse">
+    <div class="col-md-6">
+      <img src="{% static 'fitSync/images/images/zumba1.png' %}" alt="Zumba Benefits" class="img-fluid">
+    </div>
+    <div class="col-md-6">
+      <h2>Why Choose Zumba?</h2>
+      <p>Zumba is more than just a workout — it's a mood booster. It helps improve cardiovascular health, coordination, and flexibility. Our certified instructors make every session feel like a party while helping you achieve your fitness goals.</p>
+      <a href="#" class="btn btn-main mt-3" data-bs-toggle="modal" data-bs-target="#bookClassModal">Join the Fun</a>
+    </div>
+  </div>
+
+  <div class="row align-items-center mb-5">
+    <div class="col-md-6">
+      <img src="{% static 'fitSync/images/images/zumba2.png' %}" alt="Zumba Session" class="img-fluid">
+    </div>
+    <div class="col-md-6">
+      <h2>What to Expect</h2>
+      <p>Expect energetic dance routines, upbeat music, a supportive group, and a lot of sweat! Our sessions are beginner-friendly, so don’t worry if you're new — just bring your energy and we'll take care of the rest!</p>
+      <a href="#" class="btn btn-main mt-3" data-bs-toggle="modal" data-bs-target="#bookClassModal">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- Book Class Modal -->
+<div class="modal fade" id="bookClassModal" tabindex="-1" aria-labelledby="bookClassModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-light text-dark border-0" style="border-radius: 15px;">
+      
+      <!-- Modal Header -->
+      <div class="modal-header text-warning" style="border-top-left-radius: 15px; border-top-right-radius: 15px; background-color: #e8e0e3;">
+        <h5 class="modal-title" id="bookClassModalLabel">Book a Class</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body" style="background-color: #e8e0e3;">
+        <form method="POST" action="{% url 'book_class' %}">
+          {% csrf_token %}
+
+          <!-- Show messages inside modal -->
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+
+          <!-- Email field -->
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold text-warning">Email</label>
+            <input type="email" class="form-control" id="email" value="{{ request.session.client_email }}" name="email" readonly>
+          </div>
+
+          <!-- Slot Selection -->
+          <div class="mb-4">
+            <label for="slot_id" class="form-label fw-semibold text-warning">Select Slot</label>
+            <select class="form-select" id="slot_id" name="slot_id" required>
+              <option value="" selected disabled>Select a class slot</option>
+              {% for slot in class_slots %}
+                <option value="{{ slot.id }}">
+                  {{ slot.class_type|title }} | {{ slot.date }} | {{ slot.start_time|time:"P" }} - {{ slot.end_time|time:"P" }}
+                  — {{ slot.available_seats }} seat{{ slot.available_seats|pluralize }} left
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-main w-100">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Auto-Show Script -->
+{% if messages %}
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    const bookModal = new bootstrap.Modal(document.getElementById('bookClassModal'));
+    bookModal.show();
+  });
+</script>
+{% endif %}
+
+{% endblock %}

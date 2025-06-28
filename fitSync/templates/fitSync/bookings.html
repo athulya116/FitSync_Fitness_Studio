@@ -1,0 +1,65 @@
+{% extends './homeBase.html' %}
+{% load static %}
+
+{% block title %}Your Bookings | FitSync{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fitSync/css/bookings.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<div class="page-header">
+  <h2 class="text-warning">Your Class Bookings</h2>
+  <p class="text-light">Manage your upcoming sessions with ease.</p>
+</div>
+<div class="row g-4 justify-content-center">
+  {% for booking in upcoming_bookings %}
+  <div class="col-md-4">
+    <div class="dashboard-section bg-white text-dark shadow-sm">
+      <h5 class="text-warning">{{ booking.class_slot.class_type|title }}</h5>
+      <p><strong>Date:</strong> {{ booking.class_slot.date }}<br>
+         <strong>Time:</strong> {{ booking.class_slot.start_time|time:"P" }} - {{ booking.class_slot.end_time|time:"P" }}</p>
+      <p><strong>Coach:</strong> Rahul Menon</p>
+      <button class="btn btn-main me-2">Reschedule</button>
+      <button class="btn btn-cancel">Cancel</button>
+    </div>
+  </div>
+  {% empty %}
+  <p class="text-light">No upcoming bookings.</p>
+  {% endfor %}
+</div>
+
+
+<!-- Booking History Section -->
+<div class="page-header mt-5">
+  <h2 class="text-warning">Booking History</h2>
+  <p class="text-light">Here’s a record of your past sessions.</p>
+</div>
+
+<div class="row g-4 justify-content-center">
+  {% for booking in booking_history %}
+  <div class="col-md-4">
+    <div class="dashboard-section bg-white text-dark shadow-sm">
+      <h5 class="text-warning">{{ booking.class_slot.class_type|title }}</h5>
+      <p><strong>Date:</strong> {{ booking.class_slot.date }}<br>
+         <strong>Time:</strong> {{ booking.class_slot.start_time|time:"P" }} - {{ booking.class_slot.end_time|time:"P" }}</p>
+      <p><strong>Coach:</strong> Rahul Menon</p>
+
+      {% if booking.status == 'cancelled' %}
+        <span class="badge bg-secondary px-3 py-2">⏳ Cancelled</span>
+      {% elif booking.status == 'missed' %}
+        <span class="badge bg-danger px-3 py-2">❌ Missed</span>
+      {% else %}
+        <span class="badge bg-success px-3 py-2">✅ Attended</span>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <p class="text-light">No past bookings.</p>
+  {% endfor %}
+</div>
+
+
+{% endblock %}

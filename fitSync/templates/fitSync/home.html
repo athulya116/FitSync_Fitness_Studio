@@ -1,0 +1,186 @@
+{% extends './homeBase.html' %}
+{% load static %}
+
+{% block title %}Dashboard | FitSync{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fitSync/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-container container">
+  <div class="text-center mb-5">
+    <h2 class="display-5 text-warning">Welcome, {{ request.session.client_name }}!</h2>
+    <p>Here’s your personalized fitness dashboard.</p>
+    <a href="#" class="btn btn-main mt-3" data-bs-toggle="modal" data-bs-target="#bookClassModal">Book a Class</a>
+    <a href="#" class="btn btn-main btn-outline-warning mt-3 ms-3" data-bs-toggle="modal" data-bs-target="#viewClassesModal">View Classes</a>
+  </div>
+
+  <div class="row justify-content-center">
+    <!-- Upcoming Class -->
+    <div class="col-md-6 mb-4">
+      <div class="dashboard-section h-100">
+        <h4>Upcoming Class</h4>
+        {% if upcoming_booking %}
+          <p><strong>{{ upcoming_booking.class_slot.class_type|title }}</strong> with Coach Rahul</p>
+          <p>Date: {{ upcoming_booking.class_slot.date }} | 
+             Time: {{ upcoming_booking.class_slot.start_time|time:"P" }} - {{ upcoming_booking.class_slot.end_time|time:"P" }}</p>
+        {% else %}
+          <p>No upcoming classes booked.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Recommended Classes -->
+    <div class="col-md-6 mb-4">
+      <div class="dashboard-section h-100">
+        <h4>Recommended Classes</h4>
+        {% for slot in recommended_slots %}
+          <p>🔥 {{ slot.class_type|title }} - {{ slot.date }} at {{ slot.start_time|time:"P" }}</p>
+        {% empty %}
+          <p>No recommendations found.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Your Bookings -->
+    <div class="col-md-6 mb-4">
+      <div class="dashboard-section h-100">
+        <h4>Your Bookings</h4>
+        <ul>
+          {% for booking in bookings %}
+            <li>{{ booking.class_slot.class_type|title }} - {{ booking.class_slot.date }} {{ booking.class_slot.start_time|time:"P" }}</li>
+          {% empty %}
+            <li>No past bookings yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Membership Status -->
+    <div class="col-md-6 mb-4">
+      <div class="dashboard-section h-100">
+        <h4>Membership Status</h4>
+        <p><strong>Plan:</strong> {{ membership.plan }}</p>
+        <p><strong>Next Renewal:</strong> {{ membership.renewal }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK CLASS MODAL -->
+<div class="modal fade" id="bookClassModal" tabindex="-1" aria-labelledby="bookClassModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-light text-dark border-0" style="border-radius: 15px;">
+      <div class="modal-header text-warning" style="border-top-left-radius: 15px; border-top-right-radius: 15px; background-color: #e8e0e3;">
+        <h5 class="modal-title" id="bookClassModalLabel">Book a Class</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="background-color: #e8e0e3;">
+        <form method="POST" action="{% url 'book_class' %}">
+          {% csrf_token %}
+
+          {% if messages %}
+            {% for message in messages %}
+              {% if 'booking' in message.tags %}
+                <script>
+                  window.addEventListener('DOMContentLoaded', function () {
+                    const modal = new bootstrap.Modal(document.getElementById('bookClassModal'));
+                    modal.show();
+                  });
+                </script>
+              {% endif %}
+              <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold text-warning">Email</label>
+            <input type="email" class="form-control" id="email" value="{{ request.session.client_email }}" name="email" readonly>
+          </div>
+
+          <div class="mb-4">
+            <label for="slot_id" class="form-label fw-semibold text-warning">Select Slot</label>
+            <select class="form-select" id="slot_id" name="slot_id" required>
+              <option value="" selected disabled>Select a class slot</option>
+              {% for slot in class_slots %}
+                <option value="{{ slot.id }}">
+                  {{ slot.class_type|title }} | {{ slot.date }} | {{ slot.start_time|time:"P" }} - {{ slot.end_time|time:"P" }} 
+                  ({{ slot.available_seats }} left)
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-main w-100">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW CLASSES MODAL -->
+<div class="modal fade" id="viewClassesModal" tabindex="-1" aria-labelledby="viewClassesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content bg-light text-dark border-0" style="border-radius: 15px;">
+      <div class="modal-header text-warning" style="border-top-left-radius: 15px; border-top-right-radius: 15px; background-color: #e8e0e3;">
+        <h5 class="modal-title" id="viewClassesModalLabel">Upcoming & Today’s Classes</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="background-color: #e8e0e3;">
+        <div id="classTableContent">
+          <p>Loading classes...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const viewModal = document.getElementById('viewClassesModal');
+    viewModal.addEventListener('show.bs.modal', function () {
+      fetch("/classes")
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('classTableContent');
+          if (data.length === 0) {
+            container.innerHTML = '<p>No classes available.</p>';
+            return;
+          }
+          let table = `<div class="table-responsive"><table class="table table-bordered text-dark bg-white">
+            <thead><tr>
+              <th>Class Type</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Available Seats</th>
+            </tr></thead><tbody>`;
+          data.forEach(cls => {
+            table += `<tr>
+              <td>${cls.class_type.charAt(0).toUpperCase() + cls.class_type.slice(1)}</td>
+              <td>${cls.date}</td>
+              <td>${cls.start_time} - ${cls.end_time}</td>
+              <td>${cls.available_seats}</td>
+            </tr>`;
+          });
+          table += '</tbody></table></div>';
+          container.innerHTML = table;
+        })
+        .catch(error => {
+          document.getElementById('classTableContent').innerHTML = `<p class="text-danger">Error loading classes.</p>`;
+        });
+    });
+  });
+</script>
+
+{% if messages %}
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    const bookModal = new bootstrap.Modal(document.getElementById('bookClassModal'));
+    bookModal.show();
+  });
+</script>
+{% endif %}
+
+{% endblock %}

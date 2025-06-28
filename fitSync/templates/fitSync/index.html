@@ -1,0 +1,151 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Home | FitSync Studio{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fitSync/css/index.css' %}">
+{% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero d-flex">
+  <div class="container d-flex justify-content-between hero-content">
+    <div class="col-md-6 d-flex flex-column justify-content-center">
+      <h1 class="display-4">Welcome to FitSync Studio</h1>
+      <p class="lead">Empowering your health journey through fitness</p>
+      <a href="{% url 'login' %}" class="btn btn-main mt-3">Book a Class</a>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="about d-flex">
+  <div class="container d-flex justify-content-between about-content">
+    <div class="col-md-5">
+      <img src="{% static 'fitSync/images/images/fs.png' %}" class="img-fluid" alt="About Us">
+    </div>
+    <div class="col-md-6 d-flex flex-column justify-content-center">
+      <h2>Who are we?</h2>
+      <p>We are a passionate team of certified fitness trainers, health enthusiasts, and wellness advocates. With years of experience in helping individuals transform their lifestyle, our mission is to make fitness accessible, engaging, and effective for all.</p>
+      <h2 class="mt-4">What we do?</h2>
+      <p>We offer professionally curated Yoga, Zumba, and HIIT classes, both online and in-person. Our sessions are designed to improve flexibility, cardiovascular health, and strength while fostering mental well-being. Whether you're a beginner or a pro, our programs adapt to your pace and goals.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="services">
+  <div class="container">
+    <div class="section-title">
+      <h2>Our Classes</h2>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card p-3">
+          <img src="{% static 'fitSync/images/images/yoga.png' %}" class="card-img-top" alt="Yoga">
+          <div class="card-body">
+            <h5 class="card-title">Yoga</h5>
+            <p class="card-text">Balance your body and mind through expert-guided yoga sessions.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card p-3">
+          <img src="{% static 'fitSync/images/images/zumba.png' %}" class="card-img-top" alt="Zumba">
+          <div class="card-body">
+            <h5 class="card-title">Zumba</h5>
+            <p class="card-text">High-energy dance workouts that are fun and effective.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card p-3">
+          <img src="{% static 'fitSync/images/images/hiit.png' %}" class="card-img-top" alt="HIIT">
+          <div class="card-body">
+            <h5 class="card-title">HIIT</h5>
+            <p class="card-text">Intense workouts for quick fat burn and endurance improvement.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="container">
+      <div class="section-title">
+        <h2>What Our Clients Say</h2>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card p-3">
+            <p>"FitSync transformed my fitness life. The trainers are amazing!"</p>
+            <strong>- Priya R.</strong>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card p-3">
+            <p>"I love the energy in every Zumba class. Highly recommend!"</p>
+            <strong>- Arjun M.</strong>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card p-3">
+            <p>"From zero fitness to full strength, thanks to FitSync HIIT!"</p>
+            <strong>- Neha S.</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card p-3">
+            <p>"FitSync transformed my fitness life. The trainers are amazing!"</p>
+            <strong>- Priya R.</strong>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card p-3">
+            <p>"I love the energy in every Zumba class. Highly recommend!"</p>
+            <strong>- Arjun M.</strong>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card p-3">
+            <p>"From zero fitness to full strength, thanks to FitSync HIIT!"</p>
+            <strong>- Neha S.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- Contact Section -->
+<section class="contact">
+  <div class="container">
+    <div class="section-title">
+      <h2>Get in Touch</h2>
+    </div>
+    <div class="contact-box">
+      <form class="row g-3">
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="Your Name" required>
+        </div>
+        <div class="col-md-6">
+          <input type="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="col-12">
+          <textarea class="form-control" rows="4" placeholder="Your Message" required></textarea>
+        </div>
+        <div class="col-12">
+          <button class="btn btn-submit">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

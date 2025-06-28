@@ -1,0 +1,89 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Our Services | FitSync{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'fitSync/css/services.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero d-flex" >
+  <div class="container d-flex justify-content-between hero-content">
+    <div class="col-md-6 d-flex flex-column justify-content-center">
+      <h1 class="display-4">Our Services</h1>
+      <p class="lead">Fitness programs designed to transform your body and mind.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Services List Section -->
+<section class="services">
+  <div class="container">
+    <div class="section-title">
+      <h2>Our Programs</h2>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card p-3 h-100">
+          <img src="{% static 'fitSync/images/images/yoga.png' %}" class="card-img-top" alt="Yoga">
+          <div class="card-body">
+            <h5 class="card-title">Yoga</h5>
+            <p class="card-text">Enhance flexibility, reduce stress, and build inner peace with our guided yoga sessions for all levels.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card p-3 h-100">
+          <img src="{% static 'fitSync/images/images/zumba.png' %}" class="card-img-top" alt="Zumba">
+          <div class="card-body">
+            <h5 class="card-title">Zumba</h5>
+            <p class="card-text">Dance your way to fitness! Burn calories and boost energy with our high-intensity, fun-filled Zumba classes.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card p-3 h-100">
+          <img src="{% static 'fitSync/images/images/hiit.png' %}" class="card-img-top" alt="HIIT">
+          <div class="card-body">
+            <h5 class="card-title">HIIT</h5>
+            <p class="card-text">Short, intense workouts designed to burn fat, build strength, and increase endurance fast.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="about" style="background:#000;">
+  <div class="container">
+    <div class="section-title">
+      <h2>Why Join FitSync Classes?</h2>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-4 mb-4">
+        <img src="{% static 'fitSync/images/icons/flexible-timing.png' %}" class="rounded-circle" width="60" alt="Flexible Timings" />
+        <h5 class="mt-3">Flexible Timings</h5>
+        <p>Morning, evening, or weekend – we fit your schedule.</p>
+      </div>
+      <div class="col-md-4 mb-4">
+        <img src="{% static 'fitSync/images/icons/virtual-support.png' %}" class="rounded-circle" width="60" alt="Virtual & In-person" />
+        <h5 class="mt-3">Online & In-person</h5>
+        <p>Choose to join us virtually or at our studio – your comfort, your way.</p>
+      </div>
+      <div class="col-md-4 mb-4">
+        <img src="{% static 'fitSync/images/icons/results.png' %}" class="rounded-circle" width="60" alt="Results Guaranteed" />
+        <h5 class="mt-3">Results That Stick</h5>
+        <p>Our scientifically backed programs ensure long-term health benefits.</p>
+      </div>
+    </div>
+    <div class="text-center my-5">
+      <a href="{% url 'login' %}" class="btn btn-main">Book Your Free Trial Class</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

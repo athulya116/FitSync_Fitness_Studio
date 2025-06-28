@@ -1,0 +1,14 @@
+# Django DB
+db.sqlite3
+
+# Virtual environment
+venv/
+.env
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Migrations (optional)
+**/migrations/*.py
+!**/migrations/__init__.py
