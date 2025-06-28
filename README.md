@@ -1,4 +1,4 @@
-# FitSync - Fitness Studio Booking API
+# FitSync - Fitness Studio Booking 
 
 A Django-based web app and REST API for class booking and schedule management.
 
